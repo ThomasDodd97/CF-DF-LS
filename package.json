@@ -1,0 +1,25 @@
+{
+    "name": "cf-df-ls",
+    "displayName": "CF-DF-LS",
+    "description": "CrunchFlow Database-File Language Support",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.67.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "dbs",
+            "aliases": ["CrunchFlow Database-File Programming Language", "dbs"],
+            "extensions": [".dbs"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "dbs",
+            "scopeName": "source.dbs",
+            "path": "./syntaxes/dbs.tmLanguage.json"
+        }]
+    }
+}
