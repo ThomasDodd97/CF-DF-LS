@@ -1,31 +1,268 @@
 {
-	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
 	"name": "CrunchFlow Database-File Programming Language",
 	"patterns": [
-		{
-			"include": "#keywords"
-		},
-		{
-			"include": "#strings"
-		}
+		{"include": "#temperature_points"},
+		{"include": "#debye_huckel"},
+		{"include": "#primary_block"},
+		{"include": "#secondary_block"},
+		{"include": "#gases_block"},
+		{"include": "#minerals_block"},
+		{"include": "#surface_complexation_block"},
+		{"include": "#mineral_kinetics_block"},
+		{"include": "#exchange_block"},
+		{"include": "#surface_complexation_parameters_block"}
 	],
 	"repository": {
-		"keywords": {
-			"patterns": [{
-				"name": "keyword.control.dbs",
-				"match": "\\b(if|while|for|return)\\b"
-			}]
+		"temperature_points": {
+			"match": "(\\'temperature points\\')(\\s+?)(\\d+?)(.+?$)",
+			"captures": {
+				"1": {"name": "keyword"},
+				"4": {"name": "markup.inserted"}
+			}
 		},
-		"strings": {
-			"name": "string.quoted.double.dbs",
-			"begin": "\"",
-			"end": "\"",
+		"debye_huckel": {
+			"match" : "(\\'Debye-Huckel)(\\s+?)(\\w+?\\')(.+?$)",
+			"captures": {
+				"1": {"name": "keyword"},
+				"3": {"name": "keyword"},
+				"4": {"name": "markup.inserted"}
+			}
+		},
+		"primary_block": {
+			"name": "keyword.other",
+			"begin": "\\'H2O\\'",
+			"end": "\\'End of primary\\'",
 			"patterns": [
-				{
-					"name": "constant.character.escape.dbs",
-					"match": "\\\\."
-				}
+				{"include": "#primary_block_syntax"}
 			]
+		},
+		"secondary_block": {
+			"begin": "\\'Acetic_acid\\(aq\\)-Suppress\\'",
+			"end": "\\'End of secondary\\'",
+			"patterns": [
+				{"include": "#secondary_block_syntax_one"},
+				{"include": "#secondary_block_syntax_two"},
+				{"include": "#secondary_block_syntax_three"},
+				{"include": "#secondary_block_syntax_four"}
+			]
+		},
+		"gases_block": {
+			"name": "keyword.other",
+			"begin": "\\'Ag\\(g\\)\\'",
+			"end": "\\'End of gases\\'",
+			"patterns": [
+				{"include": "#gases_block_syntax_one"},
+				{"include": "#gases_block_syntax_two"},
+				{"include": "#gases_block_syntax_three"},
+				{"include": "#gases_block_syntax_four"}
+			]
+		},
+		"minerals_block": {
+			"name": "keyword",
+			"begin": "\\'\\(UO2\\)2As2O7\\'",
+			"end": "\\'End of minerals\\'",
+			"patterns": [
+				{"include": "#minerals_block_syntax_one"},
+				{"include": "#minerals_block_syntax_two"},
+				{"include": "#minerals_block_syntax_three"},
+				{"include": "#minerals_block_syntax_four"}
+			]
+		},
+		"mineral_kinetics_block": {
+			"name": "keyword",
+			"begin": "Begin mineral kinetics",
+			"end": "End of mineral kinetics",
+			"patterns": [
+				{"include": "#mineral_kinetics_block_syntax_one"},
+				{"include": "#mineral_kinetics_block_syntax_two"},
+				{"include": "#mineral_kinetics_block_syntax_three"},
+				{"include": "#mineral_kinetics_block_syntax_four"},
+				{"include": "#mineral_kinetics_block_syntax_five"}
+			]
+		},
+		"surface_complexation_block": {
+			"name": "keyword.other",
+			"begin": "complexation",
+			"end": "End of surface complexation",
+			"patterns": [
+				{"include": "#surface_complexation_block_syntax_one"},
+				{"include": "#surface_complexation_block_syntax_two"},
+				{"include": "#surface_complexation_block_syntax_three"},
+				{"include": "#surface_complexation_block_syntax_four"}
+			]
+		},
+		"exchange_block": {
+			"name": "support.class",
+			"begin": "Begin exchange",
+			"end": "End of exchange"
+		},
+		"surface_complexation_parameters_block": {
+			"name": "keyword",
+			"begin": "Begin surface complexation parameters",
+			"end": "End surface complexation parameters"
+		},
+		"primary_block_syntax": {
+			"match": "(\\'.+?\\'\\s+?)(.+?\\b\\s+?)(.+?\\b\\s+?)(.+?\\s+?$)",
+			"captures": {
+				"1": {"name": "keyword.other"},
+				"2": {"name": "support.function"},
+				"3": {"name": "support.class"},
+				"4": {"name": "string"}
+			}
+		},
+		"secondary_block_syntax_one": {
+			"match": "(^\\'.+?\\')(\\s+?)(\\d+?)",
+			"captures": {
+				"1": {"name": "keyword"},
+				"3": {"name": "support.function"}
+			}
+		},
+		"secondary_block_syntax_two": {
+			"match": "(\\s+?\\-{1}\\d+?\\.\\d+?\\s+?\\'\\S+?\\')",
+			"name": "string"
+		},
+		"secondary_block_syntax_three": {
+			"match": "(\\s+?\\d+?\\.\\d+?\\s+?\\'\\S+?\\')",
+			"name": "support.class"
+		},
+		"secondary_block_syntax_four": {
+			"match": "(\\s*\\-??\\d+\\.{1}\\d+)(\\s*\\-??\\d+\\.{1}\\d+)(\\s*\\-??\\d+\\.{1}\\d+)(\\s*\\-??\\d+\\.{1}\\d+)(\\s*\\-??\\d+\\.{1}\\d+)(\\s*\\-??\\d+\\.{1}\\d+)(\\s*\\-??\\d+\\.{1}\\d+)(\\s*\\-??\\d+\\.{1}\\d+)(\\s*\\-??\\d+\\.{1}\\d+)(\\s*\\-??\\d+\\.{1}\\d+)(\\s*\\-??\\d+\\.{1}\\d+)",
+			"captures": {
+				"1": {"name": "markup.inserted"},
+				"2": {"name": "markup.inserted"},
+				"3": {"name": "markup.inserted"},
+				"4": {"name": "markup.inserted"},
+				"5": {"name": "markup.inserted"},
+				"6": {"name": "markup.inserted"},
+				"7": {"name": "markup.inserted"},
+				"8": {"name": "markup.inserted"},
+				"9": {"name": "support.function"},
+				"10": {"name": "support.class"},
+				"11": {"name": "string"}
+			}
+		},
+		"gases_block_syntax_one": {
+			"match": "(^\\'.+?\\')(\\s+\\d+\\.{1}\\d+)(\\s+\\d+)",
+			"captures": {
+				"1": {"name": "keyword.other"},
+				"2": {"name": "comment"},
+				"3": {"name": "support.function"}
+			}
+		},
+		"gases_block_syntax_two": {
+			"match": "(\\s+?\\-{1}\\d+?\\.\\d+?\\s+?\\'\\S+?\\')",
+			"name": "string"
+		},
+		"gases_block_syntax_three": {
+			"match": "(\\s+?\\d+?\\.\\d+?\\s+?\\'\\S+?\\')",
+			"name": "support.class"
+		},
+		"gases_block_syntax_four": {
+			"match": "(\\s*\\-??\\d+\\.{1}\\d+)(\\s*\\-??\\d+\\.{1}\\d+)(\\s*\\-??\\d+\\.{1}\\d+)(\\s*\\-??\\d+\\.{1}\\d+)(\\s*\\-??\\d+\\.{1}\\d+)(\\s*\\-??\\d+\\.{1}\\d+)(\\s*\\-??\\d+\\.{1}\\d+)(\\s*\\-??\\d+\\.{1}\\d+)(\\s*\\-??\\d+\\.{1}\\d+)",
+			"captures": {
+				"1": {"name": "markup.inserted"},
+				"2": {"name": "markup.inserted"},
+				"3": {"name": "markup.inserted"},
+				"4": {"name": "markup.inserted"},
+				"5": {"name": "markup.inserted"},
+				"6": {"name": "markup.inserted"},
+				"7": {"name": "markup.inserted"},
+				"8": {"name": "markup.inserted"},
+				"9": {"name": "string"}
+			}
+		},
+		"minerals_block_syntax_one": {
+			"match": "(^\\'.+?\\')(\\s+\\d+\\.{1}\\d+)(\\s+\\d+)",
+			"captures": {
+				"1": {"name": "keyword"},
+				"2": {"name": "comment"},
+				"3": {"name": "support.function"}
+			}
+		},
+		"minerals_block_syntax_two": {
+			"match": "(\\s+?\\-{1}\\d+?\\.\\d+?\\s+?\\'\\S+?\\')",
+			"name": "string"
+		},
+		"minerals_block_syntax_three": {
+			"match": "(\\s+?\\d+?\\.\\d+?\\s+?\\'\\S+?\\')",
+			"name": "support.class"
+		},
+		"minerals_block_syntax_four": {
+			"match": "(\\s*\\-??\\d+\\.{1}\\d+)(\\s*\\-??\\d+\\.{1}\\d+)(\\s*\\-??\\d+\\.{1}\\d+)(\\s*\\-??\\d+\\.{1}\\d+)(\\s*\\-??\\d+\\.{1}\\d+)(\\s*\\-??\\d+\\.{1}\\d+)(\\s*\\-??\\d+\\.{1}\\d+)(\\s*\\-??\\d+\\.{1}\\d+)(\\s*\\-??\\d+\\.{1}\\d+)",
+			"captures": {
+				"1": {"name": "markup.inserted"},
+				"2": {"name": "markup.inserted"},
+				"3": {"name": "markup.inserted"},
+				"4": {"name": "markup.inserted"},
+				"5": {"name": "markup.inserted"},
+				"6": {"name": "markup.inserted"},
+				"7": {"name": "markup.inserted"},
+				"8": {"name": "markup.inserted"},
+				"9": {"name": "string"}
+			}
+		},
+		"surface_complexation_block_syntax_one": {
+			"match": "(^\\'.+?\\')(\\s+\\d+)",
+			"captures": {
+				"1": {"name": "keyword.other"},
+				"2": {"name": "support.function"}
+			}
+		},
+		"surface_complexation_block_syntax_two": {
+			"match": "(\\s+?\\-{1}\\d+?\\.\\d+?\\s+?\\'\\S+?\\')",
+			"name": "string"
+		},
+		"surface_complexation_block_syntax_three": {
+			"match": "(\\s+?\\d+?\\.\\d+?\\s+?\\'\\S+?\\')",
+			"name": "support.class"
+		},
+		"surface_complexation_block_syntax_four": {
+			"match": "(\\s*\\-??\\d+\\.{1}\\d+)(\\s*\\-??\\d+\\.{1}\\d+)(\\s*\\-??\\d+\\.{1}\\d+)(\\s*\\-??\\d+\\.{1}\\d+)(\\s*\\-??\\d+\\.{1}\\d+)(\\s*\\-??\\d+\\.{1}\\d+)(\\s*\\-??\\d+\\.{1}\\d+)(\\s*\\-??\\d+\\.{1}\\d+)",
+			"captures": {
+				"1": {"name": "markup.inserted"},
+				"2": {"name": "markup.inserted"},
+				"3": {"name": "markup.inserted"},
+				"4": {"name": "markup.inserted"},
+				"5": {"name": "markup.inserted"},
+				"6": {"name": "markup.inserted"},
+				"7": {"name": "markup.inserted"},
+				"8": {"name": "markup.inserted"}
+			}
+		},
+		"mineral_kinetics_block_syntax_one": {
+			"match": "(^\\s+type \\=)(\\s+(tst|monod|irreversible|PrecipitationOnly|DissolutionOnly|MonodBiomass))",
+			"captures": {
+				"1": {"name": "keyword.other"},
+				"2": {"name": "support.class"}
+			}
+		},
+		"mineral_kinetics_block_syntax_two": {
+			"match": "(^\\s+label \\=)(\\s+\\S+)",
+			"captures": {
+				"1": {"name": "keyword.other"},
+				"2": {"name": "support.function"}
+			}
+		},
+		"mineral_kinetics_block_syntax_three": {
+			"match": "(^\\s+rate\\(25C\\) \\=)(\\s+\\S+\\s+)",
+			"captures": {
+				"1": {"name": "keyword.other"},
+				"2": {"name": "string"}
+			}
+		},
+		"mineral_kinetics_block_syntax_four": {
+			"match": "(^\\s+activation \\=)(\\s+\\S+\\s+)",
+			"captures": {
+				"1": {"name": "keyword.other"},
+				"2": {"name": "string"}
+			}
+		},
+		"mineral_kinetics_block_syntax_five": {
+			"match": "(^\\s+dependence \\:)(\\s??)",
+			"captures": {
+				"1": {"name": "keyword.other"},
+				"2": {"name": "string"}
+			}
 		}
 	},
 	"scopeName": "source.dbs"
